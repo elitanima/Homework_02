@@ -22,6 +22,7 @@ let $id_main_page = document.querySelector('#id_main_page');
 let $id_view_cards = document.querySelector('#id_view_cards');
 let $id_modal_add_god = document.querySelector('[data-modal = "id_modal_add_god"]');
 let $data_btn_addGodModal = document.querySelector('[data-btn = "addGodModal"]')
+let $data_btn_addGodModalClose = document.querySelector('[data-btn = "addGodModalClose"]')
 
 
 let htmlGod = (god) => 
@@ -114,6 +115,7 @@ document.addEventListener('click', (e) => {
         $data_modal_form_login.classList.add('hidden');
         $data_btn_startUser.classList.remove('hidden');
     }
+   
 });
 
 //  Присвоение имени пользователя
@@ -126,7 +128,10 @@ function userLogin(user) {
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'addGod'){
         $id_modal_add_god.classList.remove('hidden');
-    };
+    } 
+    if (e.target.dataset.btn === "addGodModalClose"){
+        $id_modal_add_god.classList.add('hidden');
+    }
 });
 
 //Логика модально окна входа
