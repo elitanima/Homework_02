@@ -3,6 +3,7 @@ let user;
 let apiGod;
 
 
+
 // let objGod = {
 //     id: number,
 //     name: "string",
@@ -21,8 +22,9 @@ let $data_inp_formStartUserInput = document.querySelector('[data-inp = "formStar
 let $id_main_page = document.querySelector('#id_main_page');
 let $id_view_cards = document.querySelector('#id_view_cards');
 let $id_modal_add_god = document.querySelector('[data-modal = "id_modal_add_god"]');
-let $data_btn_addGodModal = document.querySelector('[data-btn = "addGodModal"]')
-let $data_btn_addGodModalClose = document.querySelector('[data-btn = "addGodModalClose"]')
+let $data_btn_addGodModal = document.querySelector('[data-btn = "addGodModal"]');
+let $data_btn_addGodModalClose = document.querySelector('[data-btn = "addGodModalClose"]');
+let $id_modal_eddit_god = document.querySelector('[data-modal = "id_modal_eddit_god"]')
 
 
 let htmlGod = (god) => 
@@ -71,7 +73,6 @@ const addGod = async (body) => {
     try {
             const res = await apiGod.addGod(body);
             const data = await res.json();
-            
             updateTheData();
             console.log('Информация добавлена') // вывести подтверждение
         return data;
@@ -132,6 +133,10 @@ document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === "addGodModalClose"){
         $id_modal_add_god.classList.add('hidden');
     }
+    if (e.target.dataset.btn === 'edditGod'){
+        $id_modal_eddit_god.classList.remove('hidden');
+    } 
+
 });
 
 //Логика модально окна входа
@@ -173,6 +178,19 @@ document.forms.form_start.addEventListener('submit', (e) => {
     addGod(data);
 });
 
+
+// редактирование Олимпийского Бога 
+//Баг удаляет прежние значения, если пустые поля оставить при редактировании
+document.forms.form_eddit_god.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    data.id = Number(data.id);
+    data.age = Number(data.age);
+    data.rate = Number(data.rate);
+    data.favorite = data.favorite === 'true';
+    editGodInfo(data, data.id);
+});
+
 // Удачение карточки
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'delete'){
@@ -185,19 +203,13 @@ document.addEventListener('click', (e) => {
 
 //Обновление данных БАГ, надо разобраться
 let updateTheData = async () => {
-    
-            const res = await apiGod.getAllGods();
-            const newData = await res.json();
-            console.log({newData});
-            $id_view_cards.childNodes.forEach(el => console.log(el.remove()));
-
-            newData.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
-            $id_modal_add_god.classList.add('hidden');
-            console.log($id_view_cards.childNodes);
-            console.log('Информация добавлена') // вывести подтверждение
-        // return newData;
-    
-       
-    }
-
-
+    try {
+        const res = await apiGod.getAllGods();
+        const newData = await res.json();
+        $id_view_cards.replaceChildren();
+        newData.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
+        $id_modal_add_god.classList.add('hidden');
+    } catch (error) {
+        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+    }    
+};
