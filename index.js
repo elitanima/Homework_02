@@ -44,7 +44,7 @@ const getAllGods = async () => {
     } catch (error) {
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
     }
-}
+};
 
 const getAllIdByGods = async () => {
     try {
@@ -70,6 +70,8 @@ const addGod = async (body) => {
     try {
             const res = await apiGod.addGod(body);
             const data = await res.json();
+            
+            updateTheData();
             console.log('Информация добавлена') // вывести подтверждение
         return data;
     } catch (error) {
@@ -99,7 +101,6 @@ const deleteGodById = async (id) => {
 
 
 
-
 // Открытие модального окна ввода данных о пользователе
 document.addEventListener('click', (e) => {
 
@@ -113,8 +114,7 @@ document.addEventListener('click', (e) => {
         $data_modal_form_login.classList.add('hidden');
         $data_btn_startUser.classList.remove('hidden');
     }
-}
-);
+});
 
 //  Присвоение имени пользователя
 function userLogin(user) {
@@ -157,14 +157,42 @@ document.forms.form_start.addEventListener('submit', (e) => {
 });
 
 
-    // Добавление Олимпийского Бога
-    document.forms.form_add_god.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(e.target).entries());
-        data.id = Number(data.id);
-        data.age = Number(data.age);
-        data.rate = Number(data.rate);
-        data.favorite = data.favorite === 'true';
-        console.log(data);
-        addGod(data);
+// Добавление Олимпийского Бога
+ document.forms.form_add_god.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    data.id = Number(data.id);
+    data.age = Number(data.age);
+    data.rate = Number(data.rate);
+    data.favorite = data.favorite === 'true';
+    addGod(data);
+});
+
+// Удачение карточки
+document.addEventListener('click', (e) => {
+    if (e.target.dataset.btn === 'delete'){
+            let id = Number(e.target.parentNode.dataset.cat_id);
+            console.log('delete');
+            deleteGodById(id);
+            e.target.parentNode.remove();
+        } 
     });
+
+//Обновление данных БАГ, надо разобраться
+let updateTheData = async () => {
+    
+            const res = await apiGod.getAllGods();
+            const newData = await res.json();
+            console.log({newData});
+            $id_view_cards.childNodes.forEach(el => console.log(el.remove()));
+
+            newData.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
+            $id_modal_add_god.classList.add('hidden');
+            console.log($id_view_cards.childNodes);
+            console.log('Информация добавлена') // вывести подтверждение
+        // return newData;
+    
+       
+    }
+
+
