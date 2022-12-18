@@ -10,7 +10,7 @@
     <title>Education_Project_Homework_02</title>
 </head>
 <body> 
-    <div class="end_start hidden">
+    <div class="end_start">
         <div class="start">
             <div class="view_start"> 
                 <button data-btn="startUser">Click me</button> <!-- Кнопка входа -->
@@ -18,43 +18,20 @@
         </div> 
     </div>
         <!-- Вход на главную страницу --> 
-        <div class="end_main_page hidde">
+        <div class="end_main_page hidden" id="id_main_page">
             <div class="main_page">
                 <div class="container">
-                    <!-- <button data-btn="addGod">Добавить</button> -->
-                    <div class="view_cards">
-                            <!-- тестовый для верстки -->
-                         <div class ="card" data-cat_id=${cat.id}>
-                            <img class="img_avatar">
-                            <h3>Аполлон</h3>
-                            <p>Бог света, покровитель искусств и муз, предсказатель будущего.</p>
-                            <button data-btn="description">Подробнее</button>
-                            <button data-btn="delete">Delete</button>
-                        </div>
-                        <div class ="card" data-cat_id=${cat.id}>
-                            <img class="img_avatar">
-                            <h3>Аполлон</h3>
-                            <p>Бог света, покровитель искусств и муз, предсказатель будущего.</p>
-                            <button data-btn="description">Подробнее</button>
-                            <button data-btn="delete">Delete</button>
-                        </div>
-                        <div class ="card" data-cat_id=${cat.id}>
-                            <img class="img_avatar">
-                            <h3>Аполлон</h3>
-                            <p>Бог света, покровитель искусств и муз, предсказатель будущего.</p>
-                            <button data-btn="description">Подробнее</button>
-                            <button data-btn="delete">Delete</button>
-                        </div>
-                    </div>
+                    <button data-btn="addGod">Добавить</button>
+                    <div class="view_cards" id="id_view_cards"></div>
                 </div>
             </div>
         </div>
         <!-- Модальное окно входа -->
-        <div class="hidden">
+        <div class="hidden" data-modal="modal_form_login">
             <div class="end_modal_form_login">
                 <div class="modal">
                     <form class="modal_login" name="form_start">
-                        <input class="form_data" type="text" name="user" class="form_start_user" placeholder="Введите имя пользователя">
+                        <input class="form_data"  data-inp="formStartUserInput" type="text" name="user" value="" placeholder="Введите имя пользователя">
                         <button class="form_data" data-btn="formStartUser">Войти</button>
                         <button class="form_data" data-btn="formStartUserClose">Отмена</button>
                     </form>
@@ -62,7 +39,7 @@
             </div>
         </div>
         <!-- Модальное окно добавления олимпийского Бога -->
-        <div class="hidden">
+        <div class="hidden" data-modal="id_modal_add_god">
             <div class="end_modal_form_add_god">  
                 <div class="modal">
                     <form class="form_add_god" name="form_add_god"> 

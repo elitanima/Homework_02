@@ -1,11 +1,15 @@
 html{
-    background-color: rgb(226, 16, 16);
+    background: linear-gradient( rgba(152, 149, 163, 0.9), rgba(41, 17, 197, 0.5));
   }
 
   body {
 	margin: 0px;
     height: 100vh;
   }
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
 
 .hidden {
     display: none;
@@ -21,7 +25,8 @@ html{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(173, 25, 25, 0.5);
+    background-color: rgba(135, 46, 190, 0.5);
+    animation: show 5s ease-in-out;
 }
 
 .view_start {
@@ -41,9 +46,6 @@ html{
     background: linear-gradient( rgba(152, 149, 163, 0.9), rgba(41, 17, 197, 0.5));
 }
 
-.container {
-   
-}
 
 .view_cards {
     position: relative;
@@ -61,6 +63,7 @@ html{
         0 0 10px rgb(255, 255, 255),
         0 0 20px rgb(255, 255, 255);
     border-radius: 30px;
+    animation: show 3s ease-in-out;
 }
 
 .card {
@@ -72,11 +75,11 @@ html{
         0 0 20px rgb(255, 255, 255);  
     border-radius: 20px;
     margin: 20px;
+    
 }
 
 .img_avatar {
     background-position: center;
-    background-image: url(https://kartinkin.net/uploads/posts/2022-08/1660956327_50-kartinkin-net-p-bog-apollon-v-grecheskoi-mifologii-oboi-kr-63.jpg);
     background-size: cover;
     overflow: hidden;
     margin-top: 10px;
@@ -86,6 +89,13 @@ html{
 }
 
 /* Модальные окна */
+input:focus {
+    transform: scale(1.1);
+    box-shadow:  
+        0 0 5px chartreuse;
+        
+}
+
 
 .end_modal_form_add_god{
     position: absolute;
@@ -108,7 +118,7 @@ html{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0, 0.5);
+    /* background-color: rgba(173, 25, 25, 0.5); */
 }
 
 .modal {
@@ -121,7 +131,9 @@ html{
     box-shadow: 
         0 0 10px rgb(255, 255, 255),
         0 0 20px rgb(255, 255, 255);
-        border-radius: 30px;
+    border-radius: 30px;
+    animation: show 3s ease-in-out;
+    
 }
 
 form {
@@ -165,13 +177,52 @@ button {
     0 0 10px rgb(255, 255, 255),
     0 0 5px rgb(224, 216, 225);
     /* inset 0 0 5px rgb(223, 232, 225); */
+    margin: 10px;
+    
 }
 
 button:active {
-    box-shadow:  
-    0 0 5px rgb(66, 190, 97),
-    0 0 15px rgb(24, 214, 10),
-    0 0 10px rgb(24, 214, 1);
-    /* inset 0 0 10px rgb(24, 214, 1); */
     transform: scaleX(1.1);
 }
+
+.btnArror {
+    
+    box-shadow:  
+    0 0 5px rgb(207, 26, 26),
+    0 0 15px rgb(188, 46, 46),
+    0 0 10px rgb(214, 1, 1);
+}
+
+.btnArror::placeholder {
+    color: brown; 
+}
+
+/* появление карточек, модалокб другая анимация */
+@keyframes show {
+    from { opacity: 0}
+    to {opacity: 1}
+}
+
+@keyframes show_end {
+    from { opacity: 1}
+    to {opacity: 0}
+}
+
+.animate_err {
+    animation: error_anim 1s;
+}
+
+  @keyframes error_anim {
+    0% {
+        transform:  scaleX(1);
+       
+    }
+    50% {
+        transform: scaleX(1.2);
+        
+    }
+    100% {
+        transform:  scaleX(1);
+        
+    }
+  }
