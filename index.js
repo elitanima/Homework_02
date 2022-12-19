@@ -26,6 +26,8 @@ let $data_btn_addGodModal = document.querySelector('[data-btn = "addGodModal"]')
 let $data_btn_addGodModalClose = document.querySelector('[data-btn = "addGodModalClose"]');
 let $id_modal_eddit_god = document.querySelector('[data-modal = "id_modal_eddit_god"]');
 let $id_above_page = document.querySelector('#id_above_page');
+let $id_above_cards = document.querySelector('#id_above_cards');
+
 
 
 let htmlGod = (god) => 
@@ -37,6 +39,13 @@ let htmlGod = (god) =>
     <button data-btn="delete">Delete</button>
 </div>`
 
+
+let htmlAboveGod = (god) => 
+`<div class ="card" data-god_id=${god.id}>
+    <div class="img_avatar" style="background-image: url(${god.image})"></div>
+    <h3>${god.name}</h3>
+    <p>${god.description}</p>
+</div>`
 
 
 // async/await
@@ -66,8 +75,10 @@ const getInfoAboutGodById = async (id) => {
     try {
             const res = await apiGod.getInfoAboutGodById(id);
             const data = await res.json();
+            $id_above_cards.insertAdjacentHTML("beforeend", htmlAboveGod(data));
         return data;
     } catch (error) {
+        console.log('WATH');
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
     }
 };
@@ -209,6 +220,10 @@ document.addEventListener('click', (e) => {
         } 
     if (e.target.dataset.btn === 'description') {
         $id_above_page.classList.remove('hidden');
+        let id = Number(e.target.parentNode.dataset.cat_id);
+        console.log(id);
+        getInfoAboutGodById(id);
+        
     }
     if (e.target.dataset.btn === 'edditAboveGodClose') {
         $id_above_page.classList.add('hidden');
