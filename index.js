@@ -77,10 +77,11 @@ const getInfoAboutGodById = async (id) => {
     try {
             const res = await apiGod.getInfoAboutGodById(id);
             const data = await res.json();
-            $id_above_cards.insertAdjacentHTML("beforeend", htmlAboveGod(data));
+            // $id_above_cards.insertAdjacentHTML("beforeend", htmlAboveGod(data));
+            updateTheDataAbove(id); //обновление окна прочее
         return data;
     } catch (error) {
-        console.log('WATH');
+        
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
     }
 };
@@ -90,7 +91,7 @@ const addGod = async (body) => {
             const res = await apiGod.addGod(body);
             const data = await res.json();
             updateTheData(); //обновление карточек
-            console.log('Информация добавлена') // вывести подтверждение
+            // console.log('Информация добавлена') // вывести подтверждение
         return data;
     } catch (error) {
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
@@ -101,7 +102,9 @@ const editGodInfo = async (body, id) => {
     try {
             const res = await apiGod.editGodInfo(body, id);
             const data = await res.json();
-            // updateTheData();
+            updateTheData();
+            // updateTheDataAbove(body, id)
+
             $id_modal_eddit_god.classList.add('hidden');
             
         return data;
@@ -147,21 +150,22 @@ function userLogin(user) {
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'addGod'){
         $id_modal_add_god.classList.remove('hidden');
-        console.log('Показываю модальное окно добавления');
+        // console.log('Показываю модальное окно добавления');
 
     } 
     if (e.target.dataset.btn === "addGodModalClose"){
         $id_modal_add_god.classList.add('hidden');
-        console.log('Закрываю модальное окно добавления');
+        // console.log('Закрываю модальное окно добавления');
     }
     if (e.target.dataset.btn === 'edditGod'){
         $id_modal_eddit_god.classList.remove('hidden');
-        console.log('Пояивлась модалка редактирования');
+        // console.log('Пояивлась модалка редактирования');
         
     } 
     if (e.target.dataset.btn === 'edditGodModalClose'){
         $id_modal_eddit_god.classList.add('hidden');
-        console.log('Модалка редактирования закрылась');
+        
+        // console.log('Модалка редактирования закрылась');
     }
 
 });
@@ -208,25 +212,21 @@ document.forms.form_start.addEventListener('submit', (e) => {
     addGod(data);
 });
 
+// есть Баг, нужно пофиксить, связано с запуском Listener внутри функции
+// Не сразу обновляет данные в окне Подробнее после изменения
 // функция присвоения id редактируемой карточки
     let editGodId = function(id) {
-        console.log('id редактируемой карточки', {id});
+        
         document.forms.form_eddit_god.addEventListener('submit', (e) => {
             e.preventDefault();
             const data = Object.fromEntries(new FormData(e.target).entries());
-            data.id = Number(data.id);
             data.age = Number(data.age);
             data.rate = Number(data.rate);
-            data.favorite = data.favorite === 'true';€
-            console.log('Нажал изменить карточку')
-            console.log('ID карточки',id);
-            console.log('Вызываю функию редактирования карточки');
+            data.favorite = data.favorite === 'true';
+            editGodInfo(data, id);
             
-            // editGodInfo(data, id);
-        });
-        
-        
-    }
+        }, { once: true });    
+    };
 // Редактирование Олимпийского Бога
 
 //карточки
@@ -242,14 +242,13 @@ document.addEventListener('click', (e) => {
             $id_main_page.classList.add('hidden');
             let id = Number(e.target.parentNode.dataset.god_id);
             getInfoAboutGodById(id);
-
-            editGodId(id);  // вызываю функцию для передачи id редак. карточки
+            editGodId(id); // вызываю функцию для передачи id редак. карточки
 
     }
     if (e.target.dataset.btn === 'edditAboveGodClose') {
             $id_above_page.classList.add('hidden');
             $id_main_page.classList.remove('hidden');
-            $id_above_cards.replaceChildren();
+            
     } 
 });
 
@@ -263,12 +262,23 @@ let updateTheData = async () => {
         $id_view_cards.replaceChildren();
         newData.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
         $id_modal_add_god.classList.add('hidden');
-        console.log('Отлично')
-        console.log('Информация изменена');
+        // console.log('Отлично')
+        // console.log('Информация изменена');
     } catch (error) {
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
     }    
 };
 
-//Окно подробнее 
-
+//Обновление окна подробнее
+let updateTheDataAbove = async (id) => {
+    try {
+        const res = await apiGod.getInfoAboutGodById(id);
+        const data = await res.json();
+        $id_above_cards.replaceChildren();
+        $id_above_cards.insertAdjacentHTML("beforeend", htmlAboveGod(data));
+        return data;
+    } catch (error) {
+        
+        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+    }
+};
