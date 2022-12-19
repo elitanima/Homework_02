@@ -31,20 +31,24 @@ let $id_above_cards = document.querySelector('#id_above_cards');
 
 
 let htmlGod = (god) => 
-`<div class ="card" data-cat_id=${god.id}>
+`<div class ="card" data-god_id=${god.id}>
     <div class="img_avatar" style="background-image: url(${god.image})"></div>
     <h3>${god.name}</h3>
-    <p>${god.description}</p>
+    <p>Возраст ${god.age} лет</p>
     <button data-btn="description">Подробнее</button>
     <button data-btn="delete">Delete</button>
 </div>`
 
 
 let htmlAboveGod = (god) => 
-`<div class ="card" data-god_id=${god.id}>
-    <div class="img_avatar" style="background-image: url(${god.image})"></div>
+`<div class ="card_above" data-god_id=${god.id}>
+    <div class="img_avatar_above" style="background-image: url(${god.image})"></div>
+    <h1>${god.id}</h1>
+    <h1>${god.rate}</h1>
     <h3>${god.name}</h3>
     <p>${god.description}</p>
+    <p>Возраст ${god.age} лет</p>
+    <p>${god.favorite}</p>
 </div>`
 
 
@@ -133,7 +137,6 @@ document.addEventListener('click', (e) => {
         $data_modal_form_login.classList.add('hidden');
         $data_btn_startUser.classList.remove('hidden');
     }
-   
 });
 
 //  Присвоение имени пользователя
@@ -159,6 +162,17 @@ document.addEventListener('click', (e) => {
 
 });
 
+function animateStart(params) {
+    
+}
+
+// реализовать изменение свечения кнопки входа по рандому
+// $data_btn_startUser.classList.add('animate_err', 'btnArror');
+// function getRandomInt(max) {
+//     return Math.floor(Math.random() * max);
+//   }
+
+
 //Логика модально окна входа
 //Баг пофиксить, даже когда нажимаешь отмена с введенными данными идет запуск
 document.forms.form_start.addEventListener('submit', (e) => {
@@ -174,7 +188,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
             $id_main_page.classList.remove('hidden');
             userLogin(user)
         }
-        setTimeout(time, 0, user); // указать интервал анимация входа
+        setTimeout(time, 1000, user); // указать интервал анимация входа
 
     } else {
         $data_inp_formStartUserInput.classList.add('animate_err', 'btnArror');
@@ -214,19 +228,20 @@ document.forms.form_eddit_god.addEventListener('submit', (e) => {
 //карточки
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'delete') {
-            let id = Number(e.target.parentNode.dataset.cat_id);
+            let id = Number(e.target.parentNode.dataset.god_id);
             deleteGodById(id);
             e.target.parentNode.remove();
         } 
     if (e.target.dataset.btn === 'description') {
         $id_above_page.classList.remove('hidden');
-        let id = Number(e.target.parentNode.dataset.cat_id);
+        let id = Number(e.target.parentNode.dataset.god_id);
         console.log(id);
         getInfoAboutGodById(id);
         
     }
     if (e.target.dataset.btn === 'edditAboveGodClose') {
         $id_above_page.classList.add('hidden');
+        $id_above_cards.replaceChildren();
     } 
 });
 
