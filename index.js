@@ -24,7 +24,8 @@ let $id_view_cards = document.querySelector('#id_view_cards');
 let $id_modal_add_god = document.querySelector('[data-modal = "id_modal_add_god"]');
 let $data_btn_addGodModal = document.querySelector('[data-btn = "addGodModal"]');
 let $data_btn_addGodModalClose = document.querySelector('[data-btn = "addGodModalClose"]');
-let $id_modal_eddit_god = document.querySelector('[data-modal = "id_modal_eddit_god"]')
+let $id_modal_eddit_god = document.querySelector('[data-modal = "id_modal_eddit_god"]');
+let $id_above_page = document.querySelector('#id_above_page');
 
 
 let htmlGod = (god) => 
@@ -35,6 +36,8 @@ let htmlGod = (god) =>
     <button data-btn="description">Подробнее</button>
     <button data-btn="delete">Delete</button>
 </div>`
+
+
 
 // async/await
 
@@ -85,6 +88,9 @@ const editGodInfo = async (body, id) => {
     try {
             const res = await apiGod.editGodInfo(body, id);
             const data = await res.json();
+            updateTheData();
+            $id_modal_eddit_god.classList.add('hidden');
+            
         return data;
     } catch (error) {
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
@@ -125,7 +131,7 @@ function userLogin(user) {
     getAllGods();
 };
 
-// вызов модального окна добавления, нажимая на кнопку добавить
+// появление и закрытие модальных окон
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'addGod'){
         $id_modal_add_god.classList.remove('hidden');
@@ -136,6 +142,9 @@ document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'edditGod'){
         $id_modal_eddit_god.classList.remove('hidden');
     } 
+    if (e.target.dataset.btn === 'edditGodModalClose'){
+        $id_modal_eddit_god.classList.add('hidden');
+    }
 
 });
 
@@ -154,7 +163,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
             $id_main_page.classList.remove('hidden');
             userLogin(user)
         }
-        setTimeout(time, 1000, user);
+        setTimeout(time, 0, user); // указать интервал анимация входа
 
     } else {
         $data_inp_formStartUserInput.classList.add('animate_err', 'btnArror');
@@ -191,17 +200,24 @@ document.forms.form_eddit_god.addEventListener('submit', (e) => {
     editGodInfo(data, data.id);
 });
 
-// Удачение карточки
+//карточки
 document.addEventListener('click', (e) => {
-    if (e.target.dataset.btn === 'delete'){
+    if (e.target.dataset.btn === 'delete') {
             let id = Number(e.target.parentNode.dataset.cat_id);
-            console.log('delete');
             deleteGodById(id);
             e.target.parentNode.remove();
         } 
-    });
+    if (e.target.dataset.btn === 'description') {
+        $id_above_page.classList.remove('hidden');
+    }
+    if (e.target.dataset.btn === 'edditAboveGodClose') {
+        $id_above_page.classList.add('hidden');
+    } 
+});
 
-//Обновление данных БАГ, надо разобраться
+
+
+//обновление карточек
 let updateTheData = async () => {
     try {
         const res = await apiGod.getAllGods();
@@ -209,7 +225,11 @@ let updateTheData = async () => {
         $id_view_cards.replaceChildren();
         newData.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
         $id_modal_add_god.classList.add('hidden');
+        console.log('Отлично')
+        console.log('Информация изменена');
     } catch (error) {
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
     }    
 };
+
+//Окно подробнее 
