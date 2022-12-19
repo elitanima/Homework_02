@@ -10,7 +10,7 @@
     <title>Education_Project_Homework_02</title>
 </head>
 <body> 
-    <div class="end_start ">
+    <div class="end_start">
         <div class="start">
             <div class="view_start"> 
                 <button data-btn="startUser">Click me</button> <!-- Кнопка входа -->
@@ -22,7 +22,6 @@
             <div class="main_page">
                 <div class="container">
                     <button data-btn="addGod">Добавить</button>
-                    <button data-btn="edditGod">Редактировать</button>
                     <div class="view_cards" id="id_view_cards"></div>
                 </div>
             </div>
@@ -32,7 +31,8 @@
             <div class="main_page">
                 <div class="container_btn">
                     <div class="view_cards_above" id="id_above_cards"></div>
-                    <button class="edditAboveGodClose" data-btn="edditAboveGodClose">+</button>
+                    <button class="edditAboveGodClose" data-btn="edditAboveGodClose">&#10006</button>
+                    <button class="editBtn" data-btn="edditGod">&#9998</button>
                 </div>
             </div>
         </div>
@@ -74,7 +74,6 @@
             <div class="end_modal_form_add_god">  
                 <div class="modal">
                     <form class="form_add_god" name="form_eddit_god"> 
-                        <input class="form_data" type = "number" name="id" id="eddit_god_id" placeholder="Введите ID редактируемого Бога">
                         <input class="form_data" type = "text" name="name" id="eddit_god_name" placeholder="Введите новое имя">
                         <input class="form_data" type = "number" name="age" id="eddit_god_age" placeholder="Введите возраст">
                         <input class="form_data field" type="text" name="description" id="eddit_god_description" placeholder="Описание">
@@ -84,7 +83,7 @@
                             <option value="false">Воздержусь</option>
                         </select>
                         <input class="form_data" type = "number" name="rate" id="eddit_god_rate" placeholder="Рейтинг">
-                        <button class="form_data" data-btn="edditGodModal">Добавить</button>
+                        <button class="form_data" data-btn="edditGodModal">Изменить</button>
                         <span class="form_data" data-btn="edditGodModalClose">Отмена</span>
                     </form>
                 </div>
