@@ -28,9 +28,8 @@ html{
     background-color: rgba(135, 46, 190, 0.2);
     animation: show 2s ease-in-out;
 }
-
+/* стилизация кнопки входа */
 .view_start {
-  /* стилизация кнопки входа */
 }
 
 /* Главное окно */
@@ -56,14 +55,14 @@ html{
     grid-template-columns: repeat(auto-fill, 300px );
     grid-column-gap: 10px;
     grid-row-gap: 10px;
-    width: 70vmax; /*  auto; */
-    height: 80vmin;  /*  auto; */
+    width: 70vmax;
+    height: 80vmin;
     background: linear-gradient( rgba(152, 149, 163, 0.9), rgba(41, 17, 197, 0.5));
     box-shadow: 
         0 0 10px rgb(255, 255, 255),
         0 0 20px rgb(255, 255, 255);
     border-radius: 30px;
-    animation: show .5s ease-in-out;
+    animation: show 1s ease-in-out;
 }
 
 .card {
@@ -75,6 +74,7 @@ html{
         0 0 10px rgb(255, 255, 255);  
     border-radius: 20px;
     margin: 20px;
+    color: antiquewhite;
 }
 
 .card:hover {
@@ -89,13 +89,16 @@ html{
     position: relative;
     justify-content: center;
     align-items: center;
-    width: 70vmax;
-    height: 80vmin;
+    width: 60vmax;
+    height: 70vmin;
     background: linear-gradient( rgba(152, 149, 163, 0.9), rgba(41, 17, 197, 0.9));
     box-shadow: 
         0 0 10px rgb(255, 255, 255),
         0 0 20px rgb(255, 255, 255);
     border-radius: 30px;
+    animation: show_2 1s linear;
+    color: aliceblue;
+    text-shadow:  0 0 5px rgb(255, 255, 255);
 }
 .card_above {
     display: grid;
@@ -135,7 +138,20 @@ html{
     align-self: center;
     justify-self: center;
     grid-column: 1 / 2;
-    grid-row: 1 / 4; 
+    grid-row: 1 / 4;
+    box-shadow: 
+        0 0 10px rgb(255, 255, 255),
+        0 0 20px rgb(255, 255, 255); 
+    transition: 3s;
+}
+
+.img_avatar_above:hover {
+    margin-top: 10px;
+    width: 350px;
+    height: 350px;
+    box-shadow: 
+        0 0 30px rgb(255, 255, 255),
+        0 0 200px rgb(255, 255, 255); 
 }
 
 .god_rate {
@@ -261,8 +277,11 @@ button {
     0 0 10px rgb(255, 255, 255),
     0 0 5px rgb(224, 216, 225);
     /* inset 0 0 5px rgb(223, 232, 225); */
-    margin: 10px;
-    
+    margin: 10px;  
+}
+
+button:hover {
+    transform: scale(103%)
 }
 
 button:active {
@@ -329,15 +348,21 @@ span:active {
     height: 35px;
     border-radius: 50%;
     font-size: 30px;
-    color: rgba(144, 5, 5, 0.9);
+    color: rgba(239, 233, 233, .7);
     background: none;
     align-self:flex-end;
     box-shadow:  
-        0 0 2px rgb(156, 16, 16);
+        0 0 2px rgb(230, 225, 225);
 }
 
 .basket:hover {
-    transform: scale(120%);
+    transform: scale(130%);
+}
+
+[data-btn = "startUser"]{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
 }
 
 [data-btn = "startUser"]:hover {
@@ -350,8 +375,13 @@ span:active {
     margin-right: 10px;
 }
 
-/* появление карточек, модалокб другая анимация */
+/* появление карточек, модалок, другая анимация */
 @keyframes show {
+    from { opacity: .5}
+    to {opacity: 1}
+}
+
+@keyframes show_2 {
     from { opacity: 0}
     to {opacity: 1}
 }
@@ -381,7 +411,7 @@ span:active {
   }
 
 .animate_delete {
-    animation: animate_delete 200ms;
+    animation: animate_delete 4s linear;
 }
 
 @keyframes animate_delete {

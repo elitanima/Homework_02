@@ -27,12 +27,12 @@ let $data_btn_addGodModalClose = document.querySelector('[data-btn = "addGodModa
 let $id_modal_eddit_god = document.querySelector('[data-modal = "id_modal_eddit_god"]');
 let $id_above_page = document.querySelector('#id_above_page');
 let $id_above_cards = document.querySelector('#id_above_cards');
-
+let $data_above_god_id = document.querySelector('[data-above_god_id]');
 
 // формирование html
 let htmlGod = (god) => 
 `<div class ="card" data-god_id=${god.id}>
-    <button class="basket" data-btn="delete">&#10008</button>
+    <button class="basket" data-btn="delete" data-tooltip="Удалить?">&#10008</button>
     <div class="img_avatar" style="background-image: url(${god.image})"></div>
     <h3>${god.name}</h3>
     <p>Возраст ${god.age} лет</p>
@@ -41,7 +41,7 @@ let htmlGod = (god) =>
 
 
 let htmlAboveGod = (god) => 
-`<div class ="card_above" data-god_id=${god.id} type =${god.favorite}>
+`<div class ="card_above" data-above_god_id=${god.id} type =${god.favorite}>
         <div class="img_avatar_above" style="background-image: url(${god.image})"></div>
         <div class="god_rate"><h2>${god.rate}</h2></div>
         <div class="god_name"><h1> ${god.name}</h1></div>
@@ -77,8 +77,7 @@ const getInfoAboutGodById = async (id) => {
     try {
             const res = await apiGod.getInfoAboutGodById(id);
             const data = await res.json();
-            // $id_above_cards.insertAdjacentHTML("beforeend", htmlAboveGod(data));
-            updateTheDataAbove(id); //обновление окна прочее
+            updateTheDataAbove(id); //Показ окна подробнее
         return data;
     } catch (error) {
         
@@ -102,11 +101,8 @@ const editGodInfo = async (body, id) => {
     try {
             const res = await apiGod.editGodInfo(body, id);
             const data = await res.json();
-            updateTheData();
-            // updateTheDataAbove(body, id)
-
             $id_modal_eddit_god.classList.add('hidden');
-            
+            getInfoAboutGodById(id);         
         return data;
     } catch (error) {
         alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
@@ -150,29 +146,22 @@ function userLogin(user) {
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'addGod'){
         $id_modal_add_god.classList.remove('hidden');
-        // console.log('Показываю модальное окно добавления');
-
     } 
     if (e.target.dataset.btn === "addGodModalClose"){
         $id_modal_add_god.classList.add('hidden');
-        // console.log('Закрываю модальное окно добавления');
     }
     if (e.target.dataset.btn === 'edditGod'){
         $id_modal_eddit_god.classList.remove('hidden');
-        // console.log('Пояивлась модалка редактирования');
-        
+        let $card_above = e.target.closest('div').firstElementChild.firstElementChild
+        let id = Number($card_above.dataset.above_god_id);
     } 
     if (e.target.dataset.btn === 'edditGodModalClose'){
         $id_modal_eddit_god.classList.add('hidden');
-        
-        // console.log('Модалка редактирования закрылась');
     }
 
 });
 
-
-
-//Логика модально окна входа
+//Логика модального окна входа
 
 document.forms.form_start.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -180,15 +169,14 @@ document.forms.form_start.addEventListener('submit', (e) => {
     let user = data.user;
     if (!!user) {
         e.target.parentNode.style.boxShadow = "0 0 40px greenyellow";
-        console.log('Вход');
-        //вызов функции 
+
+        //отложенный вход для показа анимации
         function time (user) {
             $data_modal_form_login.classList.add('hidden');
             $id_main_page.classList.remove('hidden');
             userLogin(user)
         }
-        setTimeout(time, 1000, user); // интервал анимация входа
-
+        setTimeout(time, 200, user); // интервал анимации входа
     } else {
         $data_inp_formStartUserInput.classList.add('animate_err', 'btnArror');
         function deleteClass(){
@@ -199,11 +187,9 @@ document.forms.form_start.addEventListener('submit', (e) => {
     }
 });
 
-
-// Добавление Олимпийского Бога
+// Модальное окно добавления
  document.forms.form_add_god.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('Вызываю функию добавления карточки');
     const data = Object.fromEntries(new FormData(e.target).entries());
     data.id = Number(data.id);
     data.age = Number(data.age);
@@ -212,24 +198,21 @@ document.forms.form_start.addEventListener('submit', (e) => {
     addGod(data);
 });
 
-// есть Баг, нужно пофиксить, связано с запуском Listener внутри функции
-// Не сразу обновляет данные в окне Подробнее после изменения
-// функция присвоения id редактируемой карточки
-    let editGodId = function(id) {
-        
-        document.forms.form_eddit_god.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const data = Object.fromEntries(new FormData(e.target).entries());
-            data.age = Number(data.age);
-            data.rate = Number(data.rate);
-            data.favorite = data.favorite === 'true';
-            editGodInfo(data, id);
-            
-        }, { once: true });    
-    };
-// Редактирование Олимпийского Бога
+// Модальное окно редактирования
+document.forms.form_eddit_god.addEventListener('submit', (e) => {
+    e.preventDefault();
+    $idEditCard = document.querySelector('[data-above_god_id]');
+    let id = Number($idEditCard.dataset.above_god_id);
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    data.age = Number(data.age);
+    data.rate = Number(data.rate);
+    data.favorite = data.favorite === 'true';
+    editGodInfo(data, id);
+    addGod(data);         
+});
+        // { once: true });    
 
-//карточки
+//Логика кнопок удаления, подробнее, закрытия модального окна редактирования
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'delete') {
             let id = Number(e.target.parentNode.dataset.god_id);
@@ -242,19 +225,15 @@ document.addEventListener('click', (e) => {
             $id_main_page.classList.add('hidden');
             let id = Number(e.target.parentNode.dataset.god_id);
             getInfoAboutGodById(id);
-            editGodId(id); // вызываю функцию для передачи id редак. карточки
-
-    }
+        }
     if (e.target.dataset.btn === 'edditAboveGodClose') {
             $id_above_page.classList.add('hidden');
             $id_main_page.classList.remove('hidden');
-            
-    } 
+            console.log('Кнопка отмены');     
+        } 
 });
 
-
-
-//обновление карточек
+//Функция обновления карточек после добавления
 let updateTheData = async () => {
     try {
         const res = await apiGod.getAllGods();
@@ -269,7 +248,7 @@ let updateTheData = async () => {
     }    
 };
 
-//Обновление окна подробнее
+//Функция обновления карточки после редактирования
 let updateTheDataAbove = async (id) => {
     try {
         const res = await apiGod.getInfoAboutGodById(id);
