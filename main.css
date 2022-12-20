@@ -324,6 +324,9 @@ span {
 span:active {
     transform: scaleX(1.1);
 }
+span:hover {
+    transform: scale(103%)
+}
 
 .edditAboveGodClose {
     width: 50px;

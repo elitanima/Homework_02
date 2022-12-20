@@ -222,6 +222,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
     data.rate = Number(data.rate);
     data.favorite = data.favorite === 'true';
     addGod(data);
+    Form.reset();
 });
 
 // Модальное окно редактирования
@@ -286,3 +287,28 @@ let updateTheDataAbove = async (id) => {
         timerNoOk();
     }
 };
+
+// Хранение
+
+const dataFromStorage = localStorage.getItem(document.forms.form_add_god.name);
+const parsedData = dataFromStorage ? JSON.parse(dataFromStorage) : null;
+
+    if (parsedData) {
+        Object.keys(parsedData).forEach( el => {
+            document.forms.form_add_god[el].value = parsedData[el];
+        });
+    };
+
+document.forms.form_add_god.addEventListener('input', () => {
+    const formData = Object.fromEntries( new FormData(document.forms.form_add_god).entries())
+        localStorage.setItem(document.forms.form_add_god.name, JSON.stringify(formData));
+});
+
+const editGod = async (godIdEdit) => {
+    const response = await api.getInfoAboutGodById(godIdEdit);
+    const data = await response.json();
+    Object.keys(data).forEach((key) => {
+    document.forms.form_eddit_god[key].value = data[key];
+    })
+};
+getInfoAboutGodById(godIdEdit);
