@@ -28,6 +28,9 @@ let $id_modal_eddit_god = document.querySelector('[data-modal = "id_modal_eddit_
 let $id_above_page = document.querySelector('#id_above_page');
 let $id_above_cards = document.querySelector('#id_above_cards');
 let $data_above_god_id = document.querySelector('[data-above_god_id]');
+let $status = document.querySelector('#status');
+let $btn_status = document.querySelector('#btn_status');
+
 
 // формирование html
 let htmlGod = (god) => 
@@ -57,9 +60,10 @@ const getAllGods = async () => {
             const res = await apiGod.getAllGods();
             const data = await res.json();
             data.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
+            
         return data;
     } catch (error) {
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }
 };
 
@@ -67,9 +71,10 @@ const getAllIdByGods = async () => {
     try {
             const res = await apiGod.getAllIdByGods();
             const data = await res.json();
+            
         return data;
     } catch (error) {
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }
 };
 
@@ -78,10 +83,10 @@ const getInfoAboutGodById = async (id) => {
             const res = await apiGod.getInfoAboutGodById(id);
             const data = await res.json();
             updateTheDataAbove(id); //Показ окна подробнее
+            
         return data;
     } catch (error) {
-        
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }
 };
 
@@ -91,9 +96,10 @@ const addGod = async (body) => {
             const data = await res.json();
             updateTheData(); //обновление карточек
             // console.log('Информация добавлена') // вывести подтверждение
+            timerOk ();
         return data;
     } catch (error) {
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }
 };
 
@@ -102,10 +108,11 @@ const editGodInfo = async (body, id) => {
             const res = await apiGod.editGodInfo(body, id);
             const data = await res.json();
             $id_modal_eddit_god.classList.add('hidden');
-            getInfoAboutGodById(id);         
+            getInfoAboutGodById(id);
+            timerOk();        
         return data;
     } catch (error) {
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }    
 };
 
@@ -113,13 +120,12 @@ const deleteGodById = async (id) => {
     try {
             const res = await apiGod.deleteGodById(id);
             const data = await res.json();
+            timerOk();
         return data;
     } catch (error) {
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }
 };
-
-
 
 // Открытие модального окна ввода данных о пользователе
 document.addEventListener('click', (e) => {
@@ -163,12 +169,33 @@ document.addEventListener('click', (e) => {
 
 //Логика модального окна входа
 
+function timerOk () {
+        $btn_status.textContent = "Все сделано! Такие дела"
+    setTimeout(() => {
+        $btn_status.classList.remove('ok');
+        $status.classList.add('hidden');
+    }, 1000);
+        $btn_status.classList.add('ok');
+        $status.classList.remove('hidden');
+};
+
+function timerNoOk () {
+        $btn_status.textContent = "Упс, бэкендер снова заснул"
+    setTimeout(() => {
+        $btn_status.classList.remove('noOk');
+        $status.classList.add('hidden');
+    }, 5000);
+        $btn_status.classList.add('noOk')
+        $status.classList.remove('hidden');
+};
+
+
 document.forms.form_start.addEventListener('submit', (e) => {
     e.preventDefault();
     let data = Object.fromEntries(new FormData(e.target).entries());
     let user = data.user;
     if (!!user) {
-        e.target.parentNode.style.boxShadow = "0 0 40px greenyellow";
+        e.target.parentNode.style.boxShadow = "0 0 30px greenyellow";
 
         //отложенный вход для показа анимации
         function time (user) {
@@ -176,14 +203,13 @@ document.forms.form_start.addEventListener('submit', (e) => {
             $id_main_page.classList.remove('hidden');
             userLogin(user)
         }
-        setTimeout(time, 200, user); // интервал анимации входа
+        setTimeout(time,1000, user); // интервал анимации входа
     } else {
         $data_inp_formStartUserInput.classList.add('animate_err', 'btnArror');
         function deleteClass(){
             $data_inp_formStartUserInput.classList.remove('animate_err','btnArror');   
         }
         setTimeout(deleteClass, 1000);
-        console.log('Введите дынные');
     }
 });
 
@@ -229,7 +255,7 @@ document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'edditAboveGodClose') {
             $id_above_page.classList.add('hidden');
             $id_main_page.classList.remove('hidden');
-            console.log('Кнопка отмены');     
+             
         } 
 });
 
@@ -241,10 +267,9 @@ let updateTheData = async () => {
         $id_view_cards.replaceChildren();
         newData.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
         $id_modal_add_god.classList.add('hidden');
-        // console.log('Отлично')
-        // console.log('Информация изменена');
+        
     } catch (error) {
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }    
 };
 
@@ -255,9 +280,9 @@ let updateTheDataAbove = async (id) => {
         const data = await res.json();
         $id_above_cards.replaceChildren();
         $id_above_cards.insertAdjacentHTML("beforeend", htmlAboveGod(data));
+        timerOk();
         return data;
     } catch (error) {
-        
-        alert(`ОШИБКАААА!!!ВОТ ЧТО ПИШУТ: ${error}`);
+        timerNoOk();
     }
 };

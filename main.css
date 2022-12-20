@@ -229,6 +229,7 @@ input:focus {
         0 0 20px rgb(255, 255, 255);
     border-radius: 30px;
     animation: show 1s ease;
+    color: aliceblue;
     
 }
 
@@ -277,7 +278,8 @@ button {
     0 0 10px rgb(255, 255, 255),
     0 0 5px rgb(224, 216, 225);
     /* inset 0 0 5px rgb(223, 232, 225); */
-    margin: 10px;  
+    margin: 10px;
+    color: antiquewhite;  
 }
 
 button:hover {
@@ -359,16 +361,21 @@ span:active {
     transform: scale(130%);
 }
 
-[data-btn = "startUser"]{
-    width: 200px;
-    height: 200px;
+[data-btn = "startUser"] {
+    transition: 2s;
+    padding: 0;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
+    color:whitesmoke;
+    text-overflow: clip; 
 }
 
 [data-btn = "startUser"]:hover {
+    transform: scale(1.4);
     box-shadow:  
-        0 0 15px rgb(255, 255, 255),
-        0 0 20px rgb(255, 255, 255);
+        0 0 25px rgb(222, 217, 227),
+        0 0 100px rgb(255, 255, 255);
 }
 
 .form_data::placeholder {
@@ -431,4 +438,28 @@ span:active {
     display: grid;
     grid-template-columns: (2, 1fr);
     grid-template-rows: repeat(10, 60px);
+  }
+
+  .ok {
+    background: linear-gradient( rgba(23, 215, 62, 0.9), rgba(32, 176, 44, 0.811));
+  }
+
+  .noOk {
+    background: linear-gradient( rgba(179, 25, 25, 0.9), rgba(203, 6, 6, 0.5));  
+  }
+
+  .modal_status {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .status {
+    position: absolute;
+    width: 300px;
+    height: 50px;
+    font-size: 20px;
+    color: aliceblue;
   }
