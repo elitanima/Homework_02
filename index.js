@@ -30,7 +30,7 @@ let $id_above_cards = document.querySelector('#id_above_cards');
 let $data_above_god_id = document.querySelector('[data-above_god_id]');
 let $status = document.querySelector('#status');
 let $btn_status = document.querySelector('#btn_status');
-
+// let $formAddGod = document.querySelector('#formAddGod');
 
 // формирование html
 let htmlGod = (god) => 
@@ -71,7 +71,7 @@ const getAllIdByGods = async () => {
     try {
             const res = await apiGod.getAllIdByGods();
             const data = await res.json();
-            
+            console.log(data);
         return data;
     } catch (error) {
         timerNoOk();
@@ -196,7 +196,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
     let user = data.user;
     if (!!user) {
         e.target.parentNode.style.boxShadow = "0 0 30px greenyellow";
-
+        
         //отложенный вход для показа анимации
         function time (user) {
             $data_modal_form_login.classList.add('hidden');
@@ -222,7 +222,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
     data.rate = Number(data.rate);
     data.favorite = data.favorite === 'true';
     addGod(data);
-    Form.reset();
+    // $formAddGod.reset();
 });
 
 // Модальное окно редактирования
@@ -290,25 +290,28 @@ let updateTheDataAbove = async (id) => {
 
 // Хранение
 
-const dataFromStorage = localStorage.getItem(document.forms.form_add_god.name);
-const parsedData = dataFromStorage ? JSON.parse(dataFromStorage) : null;
+// const dataFromStorage = localStorage.getItem(document.forms.form_add_god.name);
+// console.log("DATA с Формы",dataFromStorage);
+// const parsedData = dataFromStorage ? JSON.parse(dataFromStorage) : null;
 
-    if (parsedData) {
-        Object.keys(parsedData).forEach( el => {
-            document.forms.form_add_god[el].value = parsedData[el];
-        });
-    };
+//     if (parsedData) {
+//         Object.keys(parsedData).forEach( el => {
+//             document.forms.form_add_god[el].value = parsedData[el];
+//         });
+//     };
 
-document.forms.form_add_god.addEventListener('input', () => {
-    const formData = Object.fromEntries( new FormData(document.forms.form_add_god).entries())
-        localStorage.setItem(document.forms.form_add_god.name, JSON.stringify(formData));
-});
+// document.forms.form_add_god.addEventListener('input', () => {
+//     const formData = Object.fromEntries( new FormData(document.forms.form_add_god).entries())
+//         localStorage.setItem(document.forms.form_add_god.name, JSON.stringify(formData));
+// });
 
-const editGod = async (godIdEdit) => {
-    const response = await api.getInfoAboutGodById(godIdEdit);
-    const data = await response.json();
-    Object.keys(data).forEach((key) => {
-    document.forms.form_eddit_god[key].value = data[key];
-    })
-};
-getInfoAboutGodById(godIdEdit);
+// const editGod = async (godIdEdit) => {
+//     const response = await api.getInfoAboutGodById(godIdEdit);
+//     const data = await response.json();
+//     Object.keys(data).forEach((key) => {
+//     document.forms.form_eddit_god[key].value = data[key];
+//     })
+// };
+
+// const $formData = document.forms.form_add_god.name.
+

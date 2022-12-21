@@ -371,7 +371,7 @@ span:hover {
     height: 100px;
     border-radius: 50%;
     color:whitesmoke;
-    text-overflow: clip; 
+    animation: scalestart 7s linear;
 }
 
 [data-btn = "startUser"]:hover {
@@ -433,6 +433,18 @@ span:hover {
         opacity: 0;
         
     }
+  }
+
+  @keyframes scalestart {
+    0% {
+        
+        transform:  scale(0);
+    }
+    100% {
+
+        transform:  scale(1);
+    }
+
   }
 
 
