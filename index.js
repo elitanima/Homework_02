@@ -2,8 +2,6 @@
 let user;
 let apiGod;
 
-
-
 // let objGod = {
 //     id: number,
 //     name: "string",
@@ -60,7 +58,6 @@ const getAllGods = async () => {
             const res = await apiGod.getAllGods();
             const data = await res.json();
             data.forEach(god => $id_view_cards.insertAdjacentHTML("beforeend", htmlGod(god)));
-            
         return data;
     } catch (error) {
         timerNoOk();
@@ -82,8 +79,7 @@ const getInfoAboutGodById = async (id) => {
     try {
             const res = await apiGod.getInfoAboutGodById(id);
             const data = await res.json();
-            updateTheDataAbove(id); //Показ окна подробнее
-            
+            updateTheDataAbove(id); //обновление карточек на странице подробнее
         return data;
     } catch (error) {
         timerNoOk();
@@ -94,8 +90,7 @@ const addGod = async (body) => {
     try {
             const res = await apiGod.addGod(body);
             const data = await res.json();
-            updateTheData(); //обновление карточек
-            // console.log('Информация добавлена') // вывести подтверждение
+            updateTheData(); //обновление карточек на главной странице
             timerOk ();
         return data;
     } catch (error) {
@@ -169,29 +164,28 @@ document.addEventListener('click', (e) => {
 
 });
 
-//Логика модального окна входа
-
+// Вывод ошибок // надо дополнить, работает с багами, сделать более гибкой
 function timerOk () {
-    //     $btn_status.textContent = "Все сделано! Такие дела"
-    // setTimeout(() => {
-    //     $btn_status.classList.remove('ok');
-    //     $status.classList.add('hidden');
-    // }, 1000);
-    //     $btn_status.classList.add('ok');
-    //     $status.classList.remove('hidden');
+        $btn_status.textContent = "Все сделано!"
+    setTimeout(() => {
+        $btn_status.classList.remove('ok');
+        $status.classList.add('hidden');
+    }, 1000);
+        $btn_status.classList.add('ok');
+        $status.classList.remove('hidden');
 };
 
 function timerNoOk () {
-    //     $btn_status.textContent = "Упс, бэкендер снова заснул"
-    // setTimeout(() => {
-    //     $btn_status.classList.remove('noOk');
-    //     $status.classList.add('hidden');
-    // }, 5000);
-    //     $btn_status.classList.add('noOk')
-    //     $status.classList.remove('hidden');
+        $btn_status.textContent = "Упс, бэкендер снова заснул"
+    setTimeout(() => {
+        $btn_status.classList.remove('noOk');
+        $status.classList.add('hidden');
+    }, 5000);
+        $btn_status.classList.add('noOk')
+        $status.classList.remove('hidden');
 };
 
-
+// Вход
 document.forms.form_start.addEventListener('submit', (e) => {
     e.preventDefault();
     let data = Object.fromEntries(new FormData(e.target).entries());
@@ -199,7 +193,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
     if (!!user) {
         e.target.parentNode.style.boxShadow = "0 0 30px greenyellow";
         
-        //отложенный вход для показа анимации
+        // отложенный вход для показа анимации
         function time (user) {
             $data_modal_form_login.classList.add('hidden');
             $id_main_page.classList.remove('hidden');
@@ -239,14 +233,14 @@ document.forms.form_eddit_god.addEventListener('submit', (e) => {
     editGodInfo(data, id);
     addGod(data);         
 });
-        // { once: true });    
+        // { once: true })//удаление слушателей, дополнить потом    
 
-//Логика кнопок удаления, подробнее, закрытия модального окна редактирования
+// Логика кнопок удаления, подробнее, закрытия модального окна редактирования
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'delete') {
             let id = Number(e.target.parentNode.dataset.god_id);
             deleteGodById(id);
-            e.target.parentNode.classList.add('animate_delete')
+            // e.target.parentNode.classList.add('animate_delete')
             e.target.parentNode.remove();
         } 
     if (e.target.dataset.btn === 'description') {
@@ -262,7 +256,7 @@ document.addEventListener('click', (e) => {
         } 
 });
 
-//Функция обновления карточек после добавления
+// Функция обновления карточек после добавления
 let updateTheData = async () => {
     try {
         const res = await apiGod.getAllGods();
@@ -276,7 +270,7 @@ let updateTheData = async () => {
     }    
 };
 
-//Функция обновления карточки после редактирования
+// Функция обновления карточки после редактирования
 let updateTheDataAbove = async (id) => {
     try {
         const res = await apiGod.getInfoAboutGodById(id);
@@ -291,8 +285,8 @@ let updateTheDataAbove = async (id) => {
 };
 
 // Добавление в локальное хранилище
-
 const dataFromStorage = localStorage.getItem(document.forms.form_add_god.name);
+
 const parsedData = dataFromStorage ? JSON.parse(dataFromStorage) : null;
 
     if (parsedData) {
@@ -306,12 +300,11 @@ document.forms.form_add_god.addEventListener('input', () => {
         localStorage.setItem(document.forms.form_add_god.name, JSON.stringify(formData));
 });
 
-//Добавление в поля формы редактирования  
+// Заполнение полей формы редактирования  
 const editForm = async(id) => { 
     const res = await apiGod.getInfoAboutGodById(id);
     const data = await res.json();
-    console.log('Обращаюсь к api, ддя получения информации по ID, вот информация:',{data});
-    Object.keys(data).forEach((key) => {
-        document.forms.form_eddit_god[key].value = data[key];
-      });
+        Object.keys(data).forEach((key) => {
+            document.forms.form_eddit_god[key].value = data[key];
+        });
 }
