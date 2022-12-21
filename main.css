@@ -371,7 +371,7 @@ span:hover {
     height: 100px;
     border-radius: 50%;
     color:whitesmoke;
-    animation: scalestart 7s linear;
+    animation: scalestart 2s linear;
 }
 
 [data-btn = "startUser"]:hover {
