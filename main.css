@@ -1,5 +1,5 @@
 html{
-    background: linear-gradient( rgba(152, 149, 163, 0.9), rgba(41, 17, 197, 0.5));
+    background: linear-gradient( rgba(152, 24, 249, 0.9), rgba(84, 83, 174, 0.5));
 }
 
 body {
@@ -54,7 +54,7 @@ body {
     grid-row-gap: 10px;
     width: 70vmax;
     height: 80vmin;
-    background: linear-gradient( rgba(152, 149, 163, 0.9), rgba(41, 17, 197, 0.5));
+    background: linear-gradient( rgba(74, 37, 207, 0.9), rgba(157, 32, 207, 0.5));
     box-shadow: 
         0 0 10px rgb(255, 255, 255),
         0 0 20px rgb(255, 255, 255);
@@ -89,7 +89,7 @@ body {
     align-items: center;
     width: 60vmax;
     height: 70vmin;
-    background: linear-gradient( rgba(152, 149, 163, 0.9), rgba(41, 17, 197, 0.9));
+    background: linear-gradient( rgba(188, 29, 177, 0.9), rgba(11, 33, 174, 0.9));
     box-shadow: 
         0 0 10px rgb(255, 255, 255),
         0 0 20px rgb(255, 255, 255);

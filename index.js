@@ -44,9 +44,9 @@ let htmlGod = (god) =>
 let htmlAboveGod = (god) => 
 `<div class ="card_above" data-above_god_id=${god.id} type =${god.favorite}>
         <div class="img_avatar_above" style="background-image: url(${god.image})"></div>
-        <div class="god_rate"><h2>${god.rate}</h2></div>
+        <div class="god_rate"><h2>${god.rate} ☆</h2></div>
         <div class="god_name"><h1> ${god.name}</h1></div>
-        <div class="god_age"><h2>${god.age} млрд. лет</h2></div>
+        <div class="god_age"><h2>${god.age} лет</h2></div>
         <div class="god_description"><p>${god.description}</p></div>
 </div>`
 
@@ -190,7 +190,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
     e.preventDefault();
     let data = Object.fromEntries(new FormData(e.target).entries());
     let user = data.user;
-    if (!!user) {
+    if (user === 'elitanima') {
         e.target.parentNode.style.boxShadow = "0 0 30px greenyellow";
         
         // отложенный вход для показа анимации
