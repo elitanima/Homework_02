@@ -30,7 +30,7 @@ let $id_above_cards = document.querySelector('#id_above_cards');
 let $data_above_god_id = document.querySelector('[data-above_god_id]');
 let $status = document.querySelector('#status');
 let $btn_status = document.querySelector('#btn_status');
-// let $formAddGod = document.querySelector('#formAddGod');
+let $formAddGod = document.querySelector('#formAddGod');
 
 // формирование html
 let htmlGod = (god) => 
@@ -160,6 +160,8 @@ document.addEventListener('click', (e) => {
         $id_modal_eddit_god.classList.remove('hidden');
         let $card_above = e.target.closest('div').firstElementChild.firstElementChild
         let id = Number($card_above.dataset.above_god_id);
+        console.log('Вызываю функцию editForm');
+        editForm(id);
     } 
     if (e.target.dataset.btn === 'edditGodModalClose'){
         $id_modal_eddit_god.classList.add('hidden');
@@ -170,23 +172,23 @@ document.addEventListener('click', (e) => {
 //Логика модального окна входа
 
 function timerOk () {
-        $btn_status.textContent = "Все сделано! Такие дела"
-    setTimeout(() => {
-        $btn_status.classList.remove('ok');
-        $status.classList.add('hidden');
-    }, 1000);
-        $btn_status.classList.add('ok');
-        $status.classList.remove('hidden');
+    //     $btn_status.textContent = "Все сделано! Такие дела"
+    // setTimeout(() => {
+    //     $btn_status.classList.remove('ok');
+    //     $status.classList.add('hidden');
+    // }, 1000);
+    //     $btn_status.classList.add('ok');
+    //     $status.classList.remove('hidden');
 };
 
 function timerNoOk () {
-        $btn_status.textContent = "Упс, бэкендер снова заснул"
-    setTimeout(() => {
-        $btn_status.classList.remove('noOk');
-        $status.classList.add('hidden');
-    }, 5000);
-        $btn_status.classList.add('noOk')
-        $status.classList.remove('hidden');
+    //     $btn_status.textContent = "Упс, бэкендер снова заснул"
+    // setTimeout(() => {
+    //     $btn_status.classList.remove('noOk');
+    //     $status.classList.add('hidden');
+    // }, 5000);
+    //     $btn_status.classList.add('noOk')
+    //     $status.classList.remove('hidden');
 };
 
 
@@ -222,7 +224,7 @@ document.forms.form_start.addEventListener('submit', (e) => {
     data.rate = Number(data.rate);
     data.favorite = data.favorite === 'true';
     addGod(data);
-    // $formAddGod.reset();
+    $formAddGod.reset();
 });
 
 // Модальное окно редактирования
@@ -288,30 +290,28 @@ let updateTheDataAbove = async (id) => {
     }
 };
 
-// Хранение
+// Добавление в локальное хранилище
 
-// const dataFromStorage = localStorage.getItem(document.forms.form_add_god.name);
-// console.log("DATA с Формы",dataFromStorage);
-// const parsedData = dataFromStorage ? JSON.parse(dataFromStorage) : null;
+const dataFromStorage = localStorage.getItem(document.forms.form_add_god.name);
+const parsedData = dataFromStorage ? JSON.parse(dataFromStorage) : null;
 
-//     if (parsedData) {
-//         Object.keys(parsedData).forEach( el => {
-//             document.forms.form_add_god[el].value = parsedData[el];
-//         });
-//     };
+    if (parsedData) {
+        Object.keys(parsedData).forEach( el => {
+            document.forms.form_add_god[el].value = parsedData[el];
+        });
+    };
 
-// document.forms.form_add_god.addEventListener('input', () => {
-//     const formData = Object.fromEntries( new FormData(document.forms.form_add_god).entries())
-//         localStorage.setItem(document.forms.form_add_god.name, JSON.stringify(formData));
-// });
+document.forms.form_add_god.addEventListener('input', () => {
+    const formData = Object.fromEntries( new FormData(document.forms.form_add_god).entries())
+        localStorage.setItem(document.forms.form_add_god.name, JSON.stringify(formData));
+});
 
-// const editGod = async (godIdEdit) => {
-//     const response = await api.getInfoAboutGodById(godIdEdit);
-//     const data = await response.json();
-//     Object.keys(data).forEach((key) => {
-//     document.forms.form_eddit_god[key].value = data[key];
-//     })
-// };
-
-// const $formData = document.forms.form_add_god.name.
-
+//Добавление в поля формы редактирования  
+const editForm = async(id) => { 
+    const res = await apiGod.getInfoAboutGodById(id);
+    const data = await res.json();
+    console.log('Обращаюсь к api, ддя получения информации по ID, вот информация:',{data});
+    Object.keys(data).forEach((key) => {
+        document.forms.form_eddit_god[key].value = data[key];
+      });
+}
