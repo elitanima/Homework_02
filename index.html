@@ -10,74 +10,92 @@
     <title>Education_Project_Homework_02</title>
 </head>
 <body> 
-    <div class="end_start hidden">
+    <!-- Кнопка входа -->
+    <div class="end_start">
         <div class="start">
             <div class="view_start"> 
-                <button data-btn="startUser">Click me</button> <!-- Кнопка входа -->
+                <button data-btn="startUser">Click me</button>
             </div>
         </div> 
     </div>
         <!-- Вход на главную страницу --> 
-        <div class="end_main_page hidde">
+        <div class="end_main_page hidden" id="id_main_page">
             <div class="main_page">
                 <div class="container">
-                    <!-- <button data-btn="addGod">Добавить</button> -->
-                    <div class="view_cards">
-                            <!-- тестовый для верстки -->
-                         <div class ="card" data-cat_id=${cat.id}>
-                            <img class="img_avatar">
-                            <h3>Аполлон</h3>
-                            <p>Бог света, покровитель искусств и муз, предсказатель будущего.</p>
-                            <button data-btn="description">Подробнее</button>
-                            <button data-btn="delete">Delete</button>
-                        </div>
-                        <div class ="card" data-cat_id=${cat.id}>
-                            <img class="img_avatar">
-                            <h3>Аполлон</h3>
-                            <p>Бог света, покровитель искусств и муз, предсказатель будущего.</p>
-                            <button data-btn="description">Подробнее</button>
-                            <button data-btn="delete">Delete</button>
-                        </div>
-                        <div class ="card" data-cat_id=${cat.id}>
-                            <img class="img_avatar">
-                            <h3>Аполлон</h3>
-                            <p>Бог света, покровитель искусств и муз, предсказатель будущего.</p>
-                            <button data-btn="description">Подробнее</button>
-                            <button data-btn="delete">Delete</button>
-                        </div>
-                    </div>
+                    <button data-btn="addGod">Добавить</button>
+                    <div class="view_cards" id="id_view_cards"></div>
+                </div>
+            </div>
+        </div>
+        <!-- дополнительное окно -->
+        <div class="end_main_page hidden" id="id_above_page">
+            <div class="main_page">
+                <div class="container_btn">
+                    <div class="view_cards_above" id="id_above_cards"></div>
+                    <button class="edditAboveGodClose" data-btn="edditAboveGodClose">&#10006</button>
+                    <button class="editBtn" data-btn="edditGod">&#9998</button>
                 </div>
             </div>
         </div>
         <!-- Модальное окно входа -->
-        <div class="hidden">
+        <div class="hidden" data-modal="modal_form_login">
             <div class="end_modal_form_login">
                 <div class="modal">
                     <form class="modal_login" name="form_start">
-                        <input class="form_data" type="text" name="user" class="form_start_user" placeholder="Введите имя пользователя">
+                        <input class="form_data"  data-inp="formStartUserInput" type="text" name="user" placeholder="Введите elitanima">
                         <button class="form_data" data-btn="formStartUser">Войти</button>
-                        <button class="form_data" data-btn="formStartUserClose">Отмена</button>
+                        <span class="form_data" data-btn="formStartUserClose">Отмена</span>
                     </form>
                 </div>
             </div>
         </div>
-        <!-- Модальное окно добавления олимпийского Бога -->
-        <div class="hidden">
+        <!-- Модальное окно добавления -->
+        <div class="hidden" data-modal="id_modal_add_god">
             <div class="end_modal_form_add_god">  
                 <div class="modal">
-                    <form class="form_add_god" name="form_add_god"> 
-                        <input class="form_data" type = "number" name="id" id="add_god_id" placeholder="Введите ID">
+                    <form class="form_add_god" name="form_add_god" id="formAddGod"> 
+                        <input class="form_data" type = "number" name="id" id="add_god_id" placeholder="Введите ID" min="1">
                         <input class="form_data" type = "text" name="name" id="add_god_name" placeholder="Введите имя">
-                        <input class="form_data" type = "number" name="age" id="add_god_age" placeholder="Введите возраст">
+                        <input class="form_data" type = "number" name="age" id="add_god_age" placeholder="Введите возраст" min="1">
                         <input class="form_data field" type="text" name="description" id="add_god_description" placeholder="Описание">
                         <input class="form_data" type="url" name="image" id="add_god_image" placeholder="Ссылка на фото">
                         <select class="form_data" name="favorite" id = "add_god_favorite">
                             <option value="true">Поддерживаю</option>
                             <option value="false">Воздержусь</option>
                         </select>
-                        <input class="form_data" type = "number" name="rate" id="add_god_rate" placeholder="Рейтинг">
-                        <button class="form_data" data-btn="addGodModal">Добавить Бога</button>
-                        <button class="form_data" data-btn="addGodModalClose">Отмена</button>
+                        <input class="form_data" type = "number" name="rate" id="add_god_rate" placeholder="Рейтинг от 1 до 10" min="1" max="10">
+                        <button class="form_data" data-btn="addGodModal">Добавить</button>
+                        <span class="form_data" data-btn="addGodModalClose">Отмена</span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Модальное окно редактирования -->
+        <div class="hidden" data-modal="id_modal_eddit_god">
+            <div class="end_modal_form_add_god">  
+                <div class="modal">
+                    <form class="form_add_god" name="form_eddit_god">
+                        <input class="form_data" type = "text" name="name" id="eddit_god_name" placeholder="Введите имя">
+                        <input class="form_data" type = "number" name="age" id="eddit_god_age" placeholder="Введите возраст" min="1">
+                        <input class="form_data field" type="text" name="description" id="eddit_god_description" placeholder="Описание">
+                        <input class="form_data" type="url" name="image" id="eddit_god_image" placeholder="Ссылка на фото">
+                        <select class="form_data" name="favorite" id = "eddit_god_favorite">
+                            <option value="true">Поддерживаю</option>
+                            <option value="false">Воздержусь</option>
+                        </select>
+                        <input class="form_data" type = "number" name="rate" id="eddit_god_rate" placeholder="Рейтинг от 1 до 10" min="1" max="10">
+                        <button class="form_data" data-btn="edditGodModal">Изменить</button>
+                        <span class="form_data" data-btn="edditGodModalClose">Отмена</span>
+                    </form>
+                </div>
+            </div>
+        </div>
+         <!-- Модальное окно входа -->
+         <div class="hidden" data-modal="modal_form_login" id="status">
+            <div>
+                <div class=" modal_status">
+                    <form class="modal_login" name="form_start">
+                        <span class="status ok" id="btn_status">1</span>
                     </form>
                 </div>
             </div>
