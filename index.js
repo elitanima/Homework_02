@@ -33,7 +33,7 @@ let $formAddGod = document.querySelector('#formAddGod');
 // формирование html
 let htmlGod = (god) => 
 `<div class ="card" data-god_id=${god.id}>
-    <button class="basket" data-btn="delete" data-tooltip="Удалить?">&#10008</button>
+<button class="basket" data-btn="delete">&#10008</button>
     <div class="img_avatar" style="background-image: url(${god.image})"></div>
     <h3>${god.name}</h3>
     <p>Возраст ${god.age} лет</p>
@@ -239,6 +239,7 @@ document.forms.form_eddit_god.addEventListener('submit', (e) => {
 document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'delete') {
             let id = Number(e.target.parentNode.dataset.god_id);
+            
             deleteGodById(id);
             // e.target.parentNode.classList.add('animate_delete')
             e.target.parentNode.remove();
