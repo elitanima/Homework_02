@@ -240,7 +240,7 @@ document.addEventListener('click', (e) => {
     if (e.target.dataset.btn === 'delete') {
             let id = Number(e.target.parentNode.dataset.god_id);
             
-            deleteGodById(id);
+            // deleteGodById(id);
             // e.target.parentNode.classList.add('animate_delete')
             e.target.parentNode.remove();
         } 
